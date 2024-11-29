@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouton Fuyant</title>
+    <style>
+        #boutonFuyant {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #f9f9f9, #cccccc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #videoRickRoll {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: none;
+            z-index: 10;
+        }
+        #videoRickRoll video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <button id="boutonFuyant">N'appuie pas sur ce bouton !</button>
+
+    <!-- Conteneur pour la vidéo -->
+    <div id="videoRickRoll">
+        <video autoplay muted controls>
+            <source src="RickRoll.mp4" type="video/mp4">
+            Votre navigateur ne supporte pas la lecture de vidéos.
+        </video>
+    </div>
+
+    <script>
+        const bouton = document.getElementById('boutonFuyant');
+        const videoContainer = document.getElementById('videoRickRoll');
+        
+        // Déplacement du bouton quand la souris s'approche
+        document.addEventListener('mousemove', (souris) => {
+            const rect = bouton.getBoundingClientRect();
+            const distance = Math.sqrt(
+                Math.pow(souris.clientX - (rect.left + rect.width / 2), 2) +
+                Math.pow(souris.clientY - (rect.top + rect.height / 2), 2)
+            );
+            
+            if (distance < 100) {
+                const newTop = Math.random() * (window.innerHeight - rect.height);
+                const newLeft = Math.random() * (window.innerWidth - rect.width);
+                
+                bouton.style.top = newTop + 'px';
+                bouton.style.left = newLeft + 'px';
+            }
+        });
+
+        // Afficher la vidéo lorsqu'on clique sur le bouton
+        bouton.addEventListener('click', () => {
+            videoContainer.style.display = "block";
+
+            // Forcer le son (attendre que l'utilisateur interagisse avant de modifier le volume)
+            video.muted = false;
+            video.volume = 1.0; // Volume maximum
+        });
+    </script>
+</body>
+</html>
